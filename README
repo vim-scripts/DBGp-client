@@ -1,0 +1,5 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1929
+
+PLEASE NOTE: This script has only been tested with XDebug for PHP debugging. But it may work with other debuggers. If you would like to contribute any patches which would add support for other debuggers, please contact me at sam at box dot net.
+
+ALSO PLEASE NOTE: The original script was written by Seung Woo Shin, located at http://www.vim.org/scripts/script.php?script_id=1152. This is a slightly modified version of that script with a few additional capabilities. If anyone would like to contribute any patches to this script, feel free to submit diffs or contact me at sam at box dot net.
