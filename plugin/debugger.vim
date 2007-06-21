@@ -27,12 +27,17 @@
 "  Description: remote debugger interface to DBGp protocol
 "   Maintainer: Sam Ghods <sam <at> box.net>
 "  Last Change: June 18, 2007
-"      Version: 1.1
+"          URL: http://www.vim.org/scripts/script.php?script_id=1929
+"      Version: 1.1.1
 "               Originally written by Seung Woo Shin <segv <at> sayclub.com>
 "               The original script is located at:
 "				http://www.vim.org/scripts/script.php?script_id=1152
+"        Usage: N.B.: For a complete tutorial on how to setup this script,
+"               please visit:
+"               http://tech.blog.box.net/2007/06/20/how-to-debug-php-with-vim-and-xdebug-on-linux/
+"               -----
 "
-"        Usage: This file should reside in the plugins directory along
+"               This file should reside in the plugins directory along
 "               with debugger.py and be automatically sourced.
 "               
 "               By default, the script expects the debugging engine to connect
@@ -74,16 +79,18 @@
 "
 "                 let g:debuggerMiniBufExpl = 1
 "
-"      History: 1.1 o Added vim variable to change port.
-"                   o You can now put debugger.py in either runtime directory
-"                   or the home directory.
-"                   o Added to ability to change max children, data and depth
-"                   settings.
-"                   o Made it so stack_get wouldn't be called if the debugger
-"                   has already stopped.
-"                   o Added support for minibufexpl.vim.
-"                   o License added.
-"               1.0 o Initial release on December 7, 2004
+"      History: 1.1.1 o Added a check so the script doesn't load if python is
+"                     not compiled in. (Contributed by Lars Becker.)
+"               1.1   o Added vim variable to change port.
+"                     o You can now put debugger.py in either runtime directory
+"                     or the home directory.
+"                     o Added to ability to change max children, data and depth
+"                     settings.
+"                     o Made it so stack_get wouldn't be called if the debugger
+"                     has already stopped.
+"                     o Added support for minibufexpl.vim.
+"                     o License added.
+"               1.0   o Initial release on December 7, 2004
 "      
 " Known Issues: The code is designed for the DBGp protocol, but it has only been
 " 				tested with XDebug 2.0RC4. If anyone would like to contribute patches
@@ -99,18 +106,23 @@
 "         Todo: Compatibility for other DBGp engines.
 "
 "         		Add a status line/window which constantly shows what the current
-"         		status of the debugger is.
+"         		status of the debugger is. (starting, break, stopped, etc.)
 "
 "=============================================================================
 " }}}
+
+" Do not source this script when python is not compiled in.
+if !has("python")
+    finish
+endif
 
 " Load debugger.py either from the runtime directory (usually
 " /usr/local/share/vim/vim71/plugin/ if you're running Vim 7.1) or from the
 " home vim directory (usually ~/.vim/plugin/).
 if filereadable($VIMRUNTIME."/plugin/debugger.py")
   pyfile $VIMRUNTIME/plugin/debugger.py
-elseif filereadable($VIM."/plugin/debugger.py")
-  pyfile $VIM/plugin/debugger.py
+elseif filereadable($HOME."/.vim/plugin/debugger.py")
+  pyfile $HOME/.vim/plugin/debugger.py
 else
   call confirm('debugger.vim: Unable to find debugger.py. Place it in either your home vim directory or in the Vim runtime directory.', 'OK')
 endif
